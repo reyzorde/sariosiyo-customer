@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { Header } from "@/components/header";
+import { BottomNav } from "@/components/bottom-nav";
+import { CartBar } from "@/components/cart-bar";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -11,12 +13,12 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sariosiyo Dostavka",
-    template: "%s · Sariosiyo Dostavka",
+    default: "Sarigo",
+    template: "%s · Sarigo",
   },
   description:
-    "Sariosiyo shahrida oziq-ovqat yetkazib berish — mahalliy restoranlardan uyga.",
-  applicationName: "Sariosiyo Dostavka",
+    "Sariosiyoda oziq-ovqat yetkazib berish — mahalliy restoranlardan uyga.",
+  applicationName: "Sarigo",
 };
 
 export const viewport: Viewport = {
@@ -24,6 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -33,11 +36,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uz" className={manrope.variable}>
-      <body className="font-sans antialiased">
-        <div className="mx-auto min-h-dvh max-w-lg bg-cream">
-          <Header />
-          <main className="pb-24">{children}</main>
-        </div>
+      <body className="min-h-dvh bg-neutral-50 font-sans text-ink antialiased">
+        <Header />
+        <main className="pb-28 md:pb-16">{children}</main>
+        <CartBar />
+        <BottomNav />
       </body>
     </html>
   );
