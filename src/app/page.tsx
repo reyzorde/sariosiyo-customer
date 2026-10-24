@@ -9,11 +9,16 @@ import { RestaurantCard } from "@/components/restaurant-card";
 import { AddressBar } from "@/components/address-bar";
 import { formatSom } from "@/lib/money";
 import { useCart } from "@/lib/cart-store";
+import {
+  DishDetailSheet,
+  type DishDetailData,
+} from "@/components/dish-detail-sheet";
 import clsx from "clsx";
 
 export default function HomePage() {
   const [category, setCategory] = useState<string>("all");
   const [query, setQuery] = useState("");
+  const [detailDish, setDetailDish] = useState<DishDetailData | null>(null);
   const addItem = useCart((s) => s.addItem);
 
   const filtered = useMemo(() => {
@@ -84,13 +89,12 @@ export default function HomePage() {
                   type="button"
                   onClick={() => setCategory(cat.id)}
                   className={clsx(
-                    "flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-medium transition",
+                    "flex shrink-0 items-center rounded-full border px-3.5 py-2 text-sm font-medium transition",
                     active
                       ? "border-paprika bg-paprika text-white"
                       : "border-neutral-200 bg-white text-ink hover:border-neutral-300"
                   )}
                 >
-                  <span aria-hidden>{cat.icon}</span>
                   {cat.label}
                 </button>
               );
@@ -162,7 +166,22 @@ export default function HomePage() {
                   key={`${dish.restaurantId}-${dish.id}`}
                   className="flex w-[160px] shrink-0 flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm md:w-auto"
                 >
-                  <div className="aspect-square bg-neutral-100">
+                  <button
+                    type="button"
+                    className="aspect-square bg-neutral-100 text-left"
+                    onClick={() =>
+                      setDetailDish({
+                        id: dish.id,
+                        name: dish.name,
+                        description: dish.description,
+                        priceTiyin: dish.priceTiyin,
+                        imageUrl: dish.imageUrl,
+                        isAvailable: dish.isAvailable,
+                        restaurantId: dish.restaurantId,
+                        restaurantName: dish.restaurantName,
+                      })
+                    }
+                  >
                     {dish.imageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -172,14 +191,31 @@ export default function HomePage() {
                         loading="lazy"
                       />
                     ) : null}
-                  </div>
+                  </button>
                   <div className="flex flex-1 flex-col p-2.5">
-                    <p className="line-clamp-2 text-sm font-semibold text-ink">
-                      {dish.name}
-                    </p>
-                    <p className="mt-0.5 truncate text-[11px] text-neutral-500">
-                      {dish.restaurantName}
-                    </p>
+                    <button
+                      type="button"
+                      className="text-left"
+                      onClick={() =>
+                        setDetailDish({
+                          id: dish.id,
+                          name: dish.name,
+                          description: dish.description,
+                          priceTiyin: dish.priceTiyin,
+                          imageUrl: dish.imageUrl,
+                          isAvailable: dish.isAvailable,
+                          restaurantId: dish.restaurantId,
+                          restaurantName: dish.restaurantName,
+                        })
+                      }
+                    >
+                      <p className="line-clamp-2 text-sm font-semibold text-ink">
+                        {dish.name}
+                      </p>
+                      <p className="mt-0.5 truncate text-[11px] text-neutral-500">
+                        {dish.restaurantName}
+                      </p>
+                    </button>
                     <div className="mt-auto flex items-center justify-between gap-1 pt-2">
                       <span className="text-sm font-bold text-paprika">
                         {formatSom(dish.priceTiyin)}
@@ -207,6 +243,11 @@ export default function HomePage() {
           </section>
         )}
       </div>
+
+      <DishDetailSheet
+        dish={detailDish}
+        onClose={() => setDetailDish(null)}
+      />
     </div>
   );
 }
