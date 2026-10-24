@@ -6,6 +6,7 @@ import { ShoppingBag, Search, Heart, User } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { AddressBar } from "@/components/address-bar";
 import { useCart } from "@/lib/cart-store";
+import { useHydrated } from "@/lib/use-hydrated";
 import clsx from "clsx";
 
 const desktopNav = [
@@ -17,7 +18,9 @@ const desktopNav = [
 
 export function Header() {
   const pathname = usePathname();
+  const hydrated = useHydrated();
   const count = useCart((s) => s.itemCount());
+  const showCount = hydrated && count > 0;
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-md">
@@ -37,7 +40,7 @@ export function Header() {
             aria-label="Savat"
           >
             <ShoppingBag className="h-5 w-5" />
-            {count > 0 && (
+            {showCount && (
               <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-paprika px-1 text-[10px] font-bold text-white">
                 {count}
               </span>
@@ -101,7 +104,7 @@ export function Header() {
           >
             <ShoppingBag className="h-4 w-4" />
             Savat
-            {count > 0 && (
+            {showCount && (
               <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-white/25 px-1 text-xs">
                 {count}
               </span>

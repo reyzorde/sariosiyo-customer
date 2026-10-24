@@ -5,13 +5,15 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { formatSom } from "@/lib/money";
+import { useHydrated } from "@/lib/use-hydrated";
 
 export function CartBar() {
   const pathname = usePathname();
+  const hydrated = useHydrated();
   const count = useCart((s) => s.itemCount());
   const subtotal = useCart((s) => s.subtotalTiyin());
 
-  if (count === 0) return null;
+  if (!hydrated || count === 0) return null;
   if (pathname.startsWith("/cart") || pathname.startsWith("/checkout")) {
     return null;
   }
