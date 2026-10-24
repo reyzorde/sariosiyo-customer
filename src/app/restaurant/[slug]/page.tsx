@@ -28,7 +28,7 @@ export default async function RestaurantPage({ params }: Props) {
 
   return (
     <div>
-      <div className="relative aspect-[2/1] bg-cream-200">
+      <div className="relative aspect-[2/1] bg-neutral-100">
         {restaurant.imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -48,16 +48,14 @@ export default async function RestaurantPage({ params }: Props) {
 
       <div className="space-y-1 px-4 py-4">
         <div className="flex items-start justify-between gap-2">
-          <h1 className="font-display text-2xl font-bold text-ink">
-            {restaurant.name}
-          </h1>
+          <h1 className="text-2xl font-bold text-ink">{restaurant.name}</h1>
           <span className="flex items-center gap-0.5 text-sm font-medium">
-            <Star className="h-4 w-4 fill-paprika text-paprika" />
+            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
             {restaurant.rating.toFixed(1)}
           </span>
         </div>
-        <p className="text-sm text-ink-muted">{restaurant.description}</p>
-        <div className="flex flex-wrap gap-x-3 gap-y-1 pt-1 text-xs text-ink-faint">
+        <p className="text-sm text-neutral-500">{restaurant.description}</p>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 pt-1 text-xs text-neutral-500">
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" />~{restaurant.avgPrepMinutes} daq
           </span>
@@ -79,7 +77,7 @@ export default async function RestaurantPage({ params }: Props) {
           ({ category, items }) =>
             items.length > 0 && (
               <section key={category}>
-                <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-faint">
+                <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
                   {category}
                 </h2>
                 <div className="space-y-3">
@@ -88,6 +86,7 @@ export default async function RestaurantPage({ params }: Props) {
                       key={item.id}
                       item={item}
                       restaurantId={restaurant.id}
+                      restaurantName={restaurant.name}
                     />
                   ))}
                 </div>
